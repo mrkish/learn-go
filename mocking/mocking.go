@@ -8,7 +8,8 @@ import (
 )
 
 const (
-	finalWord = "Go!"
+	finalWord      = "Go!"
+	countdownStart = 3
 )
 
 type Sleeper interface {
@@ -36,7 +37,7 @@ func main() {
 }
 
 func Countdown(out io.Writer, sleeper Sleeper) {
-	for i := 3; i > 0; i-- {
+	for i := countdownStart; i > 0; i-- {
 		sleeper.Sleep()
 		fmt.Fprintln(out, i)
 	}
