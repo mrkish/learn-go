@@ -1,29 +1,26 @@
-package main
+package concurrency
 
-import (
-	"fmt"
-	"runtime"
-	"sync"
-	"time"
-)
+type WebsiteChecker func(string) bool
 
-func main() {
+type result struct {
+	string
+	bool
+}
 
-	runtime.GOMAXPROCS(2) // Add processors
+func CheckWebsites(wc WebsiteChecker, urls []string) map[string]bool {
+	results := make(map[string]bool)
+	resultChannel := make(chan result)
 
-	var waitGroup sync.WaitGroup
-	waitGroup.Add(2)
+	for _, url := range urls {
+		go func(u string) {
+			resultChannel <- result{u, wc(u)}
+		}(url)
 
-	go func() {
-		defer waitGroup.Done()
-		time.Sleep(5 * time.Second)
-		fmt.Println("Hello")
-	}()
+	}
 
-	go func() {
-		defer waitGroup.Done()
-		fmt.Println("Pluralsight")
-	}()
-
-	waitGroup.Wait()
+	for i := 0; i < len(urls); i++ {
+		result := <-resultChannel
+		results[result.string] = result.bool
+	}
+	return results
 }
