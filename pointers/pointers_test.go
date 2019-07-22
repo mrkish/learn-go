@@ -3,12 +3,6 @@ package pointers
 import "testing"
 
 func TestWallet(t *testing.T) {
-<<<<<<< HEAD
-	wallet := Wallet{}
-
-	wallet.Deposit(10)
-=======
->>>>>>> 25948db0b935da7094720f591b721ee953cce15c
 
 	t.Run("Withdraw", func(t *testing.T) {
 		wallet := Wallet{Bitcoin(10)}

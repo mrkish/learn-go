@@ -30,10 +30,6 @@ func (w *Wallet) Deposit(amount Bitcoin) {
 	w.balance += amount
 }
 
-<<<<<<< HEAD
-func (w Wallet) Balance() int {
-	return 0
-=======
 func (w *Wallet) Withdraw(amount Bitcoin) error {
 	if amount > w.balance {
 		return ErrInsufficientFunds
@@ -44,5 +40,4 @@ func (w *Wallet) Withdraw(amount Bitcoin) error {
 
 func (w *Wallet) Balance() Bitcoin {
 	return w.balance
->>>>>>> 25948db0b935da7094720f591b721ee953cce15c
 }
