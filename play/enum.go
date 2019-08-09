@@ -1,21 +1,22 @@
 package main
 
-import "fmt"
-
-const (
-	zero = iota
-	one
-	two
-	three
-	four
-	five
+import (
+	"fmt"
 )
 
-func main() {
-	fmt.Println(zero)
-	fmt.Println(one)
-	fmt.Println(two)
-	fmt.Println(three)
-	fmt.Println(four)
-	fmt.Println(five)
+func Iteration(subrange int) {
+	var a [100]int
+	// The slow way
+	for i := 1; i < 10; i++ {
+		fmt.Printf("Element %d is %d\n", i, a[i])
+		// The fast way
+		subrange := a[1:10]
+		for i, v := range subrange {
+			fmt.Printf("Element: %d %d\n", i, v)
+		}
+		// The parallel way
+		for i, v := range subrange {
+			go fmt.Printf("Element: %d %d\n", i, v)
+		}
+	}
 }

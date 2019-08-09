@@ -1,8 +1,8 @@
 package main
 
 import (
-  . "github.com/onsi/ginkgo"
-  . "github.com/onsi/gomega"
+  "github.com/onsi/ginkgo"
+  "github.com/onsi/gomega"
 )
 
 func dotest(array1 []int, array2 []int, exp bool) {
