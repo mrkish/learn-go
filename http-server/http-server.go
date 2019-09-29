@@ -1,4 +1,4 @@
-package httpserver
+package main
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 
 func main() {
 	// handler := http.HandlerFunc(PlayerServer)
-	server := &PlayerServer{}
+	server := &PlayerServer{&InMemoryPlayerStore{}}
 
 	if err := http.ListenAndServe(":5000", server); err != nil {
 		log.Fatalf("could not listen on port 5000 %v", err)
@@ -18,6 +18,12 @@ func main() {
 // ListenAndServe -- does stuff
 func ListenAndServe(addr string, handler Handler) error {
 	return nil
+}
+
+type InMemoryPlayerStore struct{}
+
+func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
+	return 123
 }
 
 // Handler --
@@ -36,8 +42,21 @@ type PlayerServer struct {
 }
 
 func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodPost {
+		w.WriteHeader(http.StatusAccepted)
+		return
+	}
+
 	player := r.URL.Path[len("/players/"):]
-	fmt.Fprint(w, p.store.GetPlayerScore(player))
+
+	score := p.store.GetPlayerScore(player)
+
+	if score == 0 {
+		w.WriteHeader(http.StatusNotFound)
+	}
+
+	fmt.Fprint(w, score)
 }
 
 func (p *PlayerServer) PlayerServer(w http.ResponseWriter, r *http.Request) {
