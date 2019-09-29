@@ -1,4 +1,4 @@
-package http_server
+package httpserver
 
 import (
 	"fmt"
@@ -15,18 +15,22 @@ func main() {
 	}
 }
 
+// ListenAndServe -- does stuff
 func ListenAndServe(addr string, handler Handler) error {
 	return nil
 }
 
+// Handler --
 type Handler interface {
 	ServeHTTP(http.ResponseWriter, *http.Request)
 }
 
+// PlayerStore --
 type PlayerStore interface {
 	GetPlayerScore(name string) int
 }
 
+// PlayerServer --
 type PlayerServer struct {
 	store PlayerStore
 }
@@ -41,6 +45,7 @@ func (p *PlayerServer) PlayerServer(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, p.store.GetPlayerScore(player))
 }
 
+// GetPlayerScore --
 func GetPlayerScore(name string) string {
 	if name == "Pepper" {
 		return "20"
