@@ -20,24 +20,24 @@ func ListenAndServe(addr string, handler Handler) error {
 	return nil
 }
 
-// InMemoryPlayerStore --
-type InMemoryPlayerStore struct {
-	store map[string]int
-}
-
 // NewInMemoryPlayerStore -- gets new player store
 func NewInMemoryPlayerStore() *InMemoryPlayerStore {
 	return &InMemoryPlayerStore{map[string]int{}}
 }
 
-// GetPlayerScore --
-func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
-	return i.store[name]
+// InMemoryPlayerStore --
+type InMemoryPlayerStore struct {
+	store map[string]int
 }
 
 // RecordWin --
 func (i *InMemoryPlayerStore) RecordWin(name string) {
 	i.store[name]++
+}
+
+// GetPlayerScore --
+func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
+	return i.store[name]
 }
 
 // Handler --
